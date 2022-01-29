@@ -38,10 +38,16 @@ UCLASS() class KAIJUGJ2022_API APlayerCamera : public APawn {
 
 		void SetCanRotate(float value);
 
+		void Zoom(float value);
+
 		UPROPERTY(EditAnywhere) USceneComponent* m_RotationOrigin;
+		UPROPERTY(EditAnywhere) USceneComponent* m_ZoomTarget;
 		UPROPERTY(EditAnywhere, Category = "Camera") UCameraComponent* m_Cam;
 		UPROPERTY(EditAnywhere, Category = "Script") float m_MinPitch;
 		UPROPERTY(EditAnywhere, Category = "Script") float m_MaxPitch;
+		UPROPERTY(EditAnywhere, Category = "Script") float m_MinZoom;
+		UPROPERTY(EditAnywhere, Category = "Script") float m_MaxZoom;
+		UPROPERTY(EditAnywhere, Category = "Script") float m_ZoomSpeed;
 
 		bool m_CanRotate;
 };

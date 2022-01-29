@@ -19,11 +19,18 @@ APlayerCamera::APlayerCamera() {
 	m_Cam->AttachToComponent(m_RotationOrigin, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	m_Cam->SetRelativeLocation(FVector(1000.0f, 0.0f, 0.0f));
 
+	m_ZoomTarget = CreateDefaultSubobject<USceneComponent>(TEXT("ZoomTarget"));
+	m_ZoomTarget->AttachToComponent(RootComponent, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	m_ZoomTarget->SetRelativeTransform(m_Cam->GetRelativeTransform());
+
 	FVector viewDir = m_RotationOrigin->GetRelativeLocation() - m_Cam->GetRelativeLocation();
 	m_Cam->SetRelativeRotation(viewDir.Rotation());
 
 	m_MinPitch = -10.0f;
 	m_MaxPitch = 30.0f;
+	m_ZoomSpeed = 5.0f;
+	m_MinZoom = 5.0f;
+	m_MaxZoom = 5000.0f;
 }
 
 // Called when the game starts or when spawned
@@ -31,6 +38,7 @@ void APlayerCamera::BeginPlay() {
 
 	Super::BeginPlay();
 
+	m_ZoomTarget->SetRelativeLocation(m_Cam->GetRelativeLocation());
 }
 
 // Called every frame
@@ -38,6 +46,7 @@ void APlayerCamera::Tick(float DeltaTime) {
 
 	Super::Tick(DeltaTime);
 
+	m_Cam->SetRelativeLocation(FMath::Lerp(m_Cam->GetRelativeLocation(), m_ZoomTarget->GetRelativeLocation(), m_ZoomSpeed * DeltaTime));
 }
 
 // Called to bind functionality to input
@@ -52,6 +61,8 @@ void APlayerCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	InputComponent->BindAxis("ControllerVerticalRotation", this, &APlayerCamera::VerticalRotate);
 
 	InputComponent->BindAxis("MouseButtonRightHold", this, &APlayerCamera::SetCanRotate);
+
+	InputComponent->BindAxis("Zoom", this, &APlayerCamera::Zoom);
 }
 
 void APlayerCamera::MouseHorizontalRotate(float value) {
@@ -83,4 +94,11 @@ void APlayerCamera::VerticalRotate(float value) {
 void APlayerCamera::SetCanRotate(float value) {
 
 	m_CanRotate = (bool)value;
+}
+
+void APlayerCamera::Zoom(float value) {
+
+	float Target = FMath::Clamp(FVector::Dist(m_RotationOrigin->GetRelativeLocation(), m_ZoomTarget->GetRelativeLocation() + value), m_MinZoom, m_MaxZoom);
+
+	m_ZoomTarget->AddLocalOffset(FVector(Target - FVector::Dist(m_RotationOrigin->GetRelativeLocation(), m_ZoomTarget->GetRelativeLocation()), 0.0f, 0.0f));
 }
