@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "PlayerCamera.h"
 #include "PlayerCameraController.generated.h"
 
 /**
@@ -17,10 +18,12 @@ class KAIJUGJ2022_API APlayerCameraController : public APlayerController
 public:
 	APlayerCameraController();
 
+	UPROPERTY(EditAnywhere)
+		ACharacter* CurrentPlayer;
 
 	UPROPERTY(EditAnywhere)
-		ACharacter* Player;
+		ACharacter* CurrentCamera;
 
-	UPROPERTY(EditAnywhere)
-		ACharacter* Camera;
+	private:
+		APlayerCamera* playerCamera;
 };
