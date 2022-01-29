@@ -5,5 +5,5 @@
 
 APlayerCameraGameMode::APlayerCameraGameMode()
 {
-	PlayerControllerClass = APlayerCameraController::StaticClass();
+
 }

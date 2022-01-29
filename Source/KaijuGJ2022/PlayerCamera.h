@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+//CAMERA SANDBOX, INGAME CAMERA IS CREATED IN CLASS ACharacterController
+
 #pragma once
 
 #include "CoreMinimal.h"

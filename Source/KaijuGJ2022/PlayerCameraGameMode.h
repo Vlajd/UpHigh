@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "PlayerCameraController.h"
 #include "PlayerCameraGameMode.generated.h"
 
 /**
