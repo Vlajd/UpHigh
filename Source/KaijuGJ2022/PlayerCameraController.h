@@ -17,4 +17,10 @@ class KAIJUGJ2022_API APlayerCameraController : public APlayerController
 public:
 	APlayerCameraController();
 
+
+	UPROPERTY(EditAnywhere)
+		ACharacter* Player;
+
+	UPROPERTY(EditAnywhere)
+		ACharacter* Camera;
 };

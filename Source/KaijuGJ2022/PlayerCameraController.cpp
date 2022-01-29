@@ -3,3 +3,7 @@
 
 #include "PlayerCameraController.h"
 
+APlayerCameraController::APlayerCameraController()
+{
+	
+}
