@@ -6,8 +6,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Components/SceneComponent.h"
-#include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "PlayerCamera.generated.h"
 
@@ -28,9 +26,7 @@ UCLASS() class KAIJUGJ2022_API APlayerCamera : public APawn {
 		virtual void Tick(float DeltaTime) override;
 	
 		// Called to bind functionality to input
-		virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	private:
+		//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 		void MouseHorizontalRotate(float value);
 		void MouseVerticalRotate(float value);
