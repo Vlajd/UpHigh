@@ -5,9 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "kismet/GameplayStatics.h"
-#include "Components/SceneComponent.h"
-#include "Components/InputComponent.h"
-#include "Camera/CameraComponent.h"
 #include "CharacterController.generated.h"
 
 UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
@@ -27,36 +24,11 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		virtual void Tick(float DeltaTime) override;
 	
 		// Called to bind functionality to input
-		virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+		//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 		UPROPERTY(EditAnywhere) float movementSpeed;
-	
-	private:
-	
+
 		void MoveFwBw(float value);
 		void MoveRL(float value);
 
-
-	////CAMERA//////////////////////////////////
-		void MouseHorizontalRotate(float value);
-		void MouseVerticalRotate(float value);
-
-		void HorizontalRotate(float value);
-		void VerticalRotate(float value);
-
-		void SetCanRotate(float value);
-
-		void Zoom(float value);
-
-		UPROPERTY(EditAnywhere) USceneComponent* m_RotationOrigin;
-		UPROPERTY(EditAnywhere) USceneComponent* m_ZoomTarget;
-		UPROPERTY(EditAnywhere, Category = "Camera") UCameraComponent* m_Cam;
-		UPROPERTY(EditAnywhere, Category = "Script") float m_MinPitch;
-		UPROPERTY(EditAnywhere, Category = "Script") float m_MaxPitch;
-		UPROPERTY(EditAnywhere, Category = "Script") float m_MinZoom;
-		UPROPERTY(EditAnywhere, Category = "Script") float m_MaxZoom;
-		UPROPERTY(EditAnywhere, Category = "Script") float m_ZoomSpeed;
-
-		bool m_CanRotate;
-	////CAMERA//////////////////////////////////
 };
