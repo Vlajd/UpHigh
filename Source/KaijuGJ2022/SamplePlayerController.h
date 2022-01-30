@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PlayerCamera.h"
 #include "CharacterController.h"
+#include "Kismet/GameplayStatics.h"
 #include "SamplePlayerController.generated.h"
 
 /**
@@ -36,6 +37,8 @@ class KAIJUGJ2022_API ASamplePlayerController : public APlayerController
 
 		virtual void CallZoom(float value);
 
-		UPROPERTY(Transient, EditAnywhere) APlayerCamera* m_pPlayerCamera;
-		UPROPERTY(Transient, EditAnywhere) ACharacterController* m_pCharacterController;
+		TArray<AActor*> m_pPlayerCameraArray;
+		TArray<AActor*> m_pCharacterControllerArray;
+		APlayerCamera* m_pPlayerCamera;
+		ACharacterController* m_pCharacterController;
 };

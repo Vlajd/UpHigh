@@ -9,8 +9,6 @@ APlayerCamera::APlayerCamera() {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
-
 	m_RotationOrigin = CreateDefaultSubobject<USceneComponent>(TEXT("RotationOrigin"));
 	m_RotationOrigin->AttachToComponent(RootComponent, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	m_RotationOrigin->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));

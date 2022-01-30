@@ -5,11 +5,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "PlayerCamera.generated.h"
 
-UCLASS() class KAIJUGJ2022_API APlayerCamera : public APawn {
+UCLASS() class KAIJUGJ2022_API APlayerCamera : public ACharacter {
 
 	GENERATED_BODY()
 

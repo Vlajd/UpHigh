@@ -9,8 +9,6 @@ ACharacterController::ACharacterController()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
-
 	movementSpeed = 1;
 }
 
@@ -38,6 +36,8 @@ void ACharacterController::Tick(float DeltaTime)
 
 void ACharacterController::MoveFwBw(float value)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("ACharacterController::MoveFwBw Is Called!"));
+
 	if (value)
 	{
 		AddMovementInput(GetActorForwardVector(), value * movementSpeed);
@@ -46,6 +46,8 @@ void ACharacterController::MoveFwBw(float value)
 
 void ACharacterController::MoveRL(float value)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("ACharacterController::MoveFwBw Is Called!"));
+
 	if (value)
 	{
 		AddMovementInput(GetActorRightVector(), value * movementSpeed);
