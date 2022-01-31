@@ -10,6 +10,7 @@ ACharacterController::ACharacterController()
 	PrimaryActorTick.bCanEverTick = true;
 
 	movementSpeed = 1;
+	m_RotationToCameraSpeed = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -52,4 +53,10 @@ void ACharacterController::MoveRL(float value)
 	{
 		AddMovementInput(GetActorRightVector(), value * movementSpeed);
 	}
+}
+
+void ACharacterController::RotateOnCamera(float rotation) {
+
+	FRotator currentRotation = GetActorRotation();
+	SetActorRotation(FRotator(currentRotation.Pitch, FMath::Lerp(currentRotation.Yaw, rotation, m_RotationToCameraSpeed), currentRotation.Roll))
 }

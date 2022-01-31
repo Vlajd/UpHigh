@@ -31,4 +31,8 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		void MoveFwBw(float value);
 		void MoveRL(float value);
 
+		void RotateOnCamera(float rotation);
+
+		UPROPERTY(EditAnywhere, Category = "Script") float m_RotationToCameraSpeed;
+
 };
