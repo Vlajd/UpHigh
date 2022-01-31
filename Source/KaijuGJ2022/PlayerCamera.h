@@ -7,6 +7,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
+#include "UObject/UObjectGlobals.h"
 #include "PlayerCamera.generated.h"
 
 UCLASS() class KAIJUGJ2022_API APlayerCamera : public ACharacter {
@@ -48,4 +49,5 @@ UCLASS() class KAIJUGJ2022_API APlayerCamera : public ACharacter {
 		UPROPERTY(EditAnywhere, Category = "Script") float m_ZoomSpeed;
 
 		bool m_CanRotate;
+		//FObjectInitializer* m_pObjectInitializer;
 };

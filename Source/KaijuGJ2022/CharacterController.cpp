@@ -58,5 +58,5 @@ void ACharacterController::MoveRL(float value)
 void ACharacterController::RotateOnCamera(float rotation) {
 
 	FRotator currentRotation = GetActorRotation();
-	SetActorRotation(FRotator(currentRotation.Pitch, FMath::Lerp(currentRotation.Yaw, rotation, m_RotationToCameraSpeed), currentRotation.Roll))
+	SetActorRotation(FRotator(currentRotation.Pitch, FMath::Lerp(currentRotation.Yaw, rotation, m_RotationToCameraSpeed), currentRotation.Roll));
 }

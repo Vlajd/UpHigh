@@ -16,6 +16,7 @@ void ASamplePlayerController::BeginPlay() {
 
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACharacterController::StaticClass(), m_pCharacterControllerArray);
 
+    if(!m_pCharacterControllerArray.IsEmpty())
     m_pCharacterController = Cast<ACharacterController>(m_pCharacterControllerArray[0]);
 
     if (m_pCharacterController == nullptr)
@@ -23,7 +24,8 @@ void ASamplePlayerController::BeginPlay() {
 
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCamera::StaticClass(), m_pPlayerCameraArray);
 
-    m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]);
+    if (!m_pPlayerCameraArray.IsEmpty())
+        m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]);
 
     if (m_pPlayerCamera == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
