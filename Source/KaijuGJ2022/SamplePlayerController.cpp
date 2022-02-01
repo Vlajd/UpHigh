@@ -14,18 +14,20 @@ void ASamplePlayerController::BeginPlay() {
 
     Super::BeginPlay();
 
+
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACharacterController::StaticClass(), m_pCharacterControllerArray);
 
     if(!m_pCharacterControllerArray.IsEmpty())
-    m_pCharacterController = Cast<ACharacterController>(m_pCharacterControllerArray[0]);
+    m_pCharacterController = Cast<ACharacterController>(m_pCharacterControllerArray[0]); // Gets First Found ACharacterController
 
     if (m_pCharacterController == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pCharacterController IS NULL!::BeginPlay"));
 
+
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCamera::StaticClass(), m_pPlayerCameraArray);
 
     if (!m_pPlayerCameraArray.IsEmpty())
-        m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]);
+        m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]); // Gets First Found APlayerCamera
 
     if (m_pPlayerCamera == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
@@ -136,12 +138,18 @@ void ASamplePlayerController::CallZoom(float value) {
 
 void ASamplePlayerController::RotateCharacter() {
 
-    if (m_pCharacterController != nullptr && m_pPlayerCameraRotationOrigin != nullptr) {
+    if (m_pCharacterController != nullptr) {
 
-        FRotator rotation = m_pPlayerCameraRotationOrigin->GetRelativeRotation();
-
-        m_pCharacterController->RotateOnCamera(rotation.Yaw);
+        m_pCharacterController->RotateOnCamera(GetCameraYawRotation());
     }
     else
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pCharacterController || m_pPlayerCameraRotationOrigin IS NULL!::RotateCharacter"));
+}
+
+float ASamplePlayerController::GetCameraYawRotation() {
+
+    if (m_pPlayerCameraRotationOrigin != nullptr)
+        return m_pPlayerCameraRotationOrigin->GetRelativeRotation().Yaw;
+    else
+        return 0.0f;
 }
