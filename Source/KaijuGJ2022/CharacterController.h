@@ -34,13 +34,22 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		void RotateMesh();
 
+		void PlayerDeath();
+
 		FRotator GetCurrentRotation();
 
 		UPROPERTY(EditAnywhere, Category = "Script") float m_RotationToCameraSpeed;
+		UPROPERTY(EditAnywhere, Category = "Script") FVector m_SpawnCoords;
+		UPROPERTY(EditAnywhere, Category = "Script") float m_SummonRate;
 
 		USkeletalMeshComponent* m_pMesh;
 
 		UCharacterMovementComponent* m_CharacterMovementComponent;
 
 		FVector2D m_PointDir;
+
+		float m_Timer;
+		bool m_IsSummoning;
+		bool m_SummonAnimBool;
+		bool m_HasDied;
 };

@@ -39,6 +39,10 @@ class KAIJUGJ2022_API ASamplePlayerController : public APlayerController
 		virtual void CallZoom(float value);
 
 
+		//Debug Function
+		virtual void DebugFunction();
+
+
 		virtual void RotateCharacter();
 
 		float GetCameraYawRotation();

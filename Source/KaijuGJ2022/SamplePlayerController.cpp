@@ -62,6 +62,8 @@ void ASamplePlayerController::SetupInputComponent() {
     InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
 
     InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
+
+    InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
@@ -135,6 +137,16 @@ void ASamplePlayerController::CallZoom(float value) {
     else
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::CallZoom"));
 }
+
+
+// DEBUG FUNCTION
+
+void ASamplePlayerController::DebugFunction() {
+
+    m_pCharacterController->PlayerDeath();
+}
+
+
 
 void ASamplePlayerController::RotateCharacter() {
 
