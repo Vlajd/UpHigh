@@ -28,6 +28,9 @@ void ASamplePlayerController::BeginPlay() {
         m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]);
 
     if (m_pPlayerCamera == nullptr)
+        m_pPlayerCamera = NewObject<APlayerCamera>(CameraToGenerate);
+
+    if (m_pPlayerCamera == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
 
     if (m_pPlayerCamera != nullptr)

@@ -22,5 +22,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	n
+
+private:
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<AActor> Wall;
+
+	//UPROPERTY(EditAnywhere)
+	//UInstancedStaticMeshComponent* Wall;
 };

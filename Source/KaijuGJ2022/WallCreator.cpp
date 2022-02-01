@@ -16,6 +16,13 @@ void AWallCreator::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//TEST: create one wall manager actor
+
+	const FVector Location = GetActorLocation();
+	const FRotator Rotation = GetActorRotation();
+	
+	NewObject<UInstancedStaticMeshComponent>(Wall);
+
 	//Instantiate all managers at positions given in some array
 	//have new array with references to all the managers
 	

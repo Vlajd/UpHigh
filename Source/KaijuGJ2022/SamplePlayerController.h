@@ -24,26 +24,33 @@ class KAIJUGJ2022_API ASamplePlayerController : public APlayerController
 	protected:
 		virtual void BeginPlay() override;
 
-	public:
-		virtual void Tick(float DeltaTime) override;
+public:
+	virtual void Tick(float DeltaTime) override;
 
-		virtual void SetupInputComponent() override;
+	virtual void SetupInputComponent() override;
 
-		virtual void CallMoveFwBw(float value);
-		virtual void CallMoveRL(float value);
+	virtual void CallMoveFwBw(float value);
+	virtual void CallMoveRL(float value);
 
-		//CAMERA
-		virtual void CallHorizontalRotate(float value);
-		virtual void CallVerticalRotate(float value);
+	//CAMERA
+	virtual void CallHorizontalRotate(float value);
+	virtual void CallVerticalRotate(float value);
 
-		virtual void CallZoom(float value);
+	virtual void CallZoom(float value);
 
-		virtual void RotateCharacter();
+	virtual void RotateCharacter();
 
-		TArray<AActor*> m_pPlayerCameraArray;
-		TArray<AActor*> m_pCharacterControllerArray;
-		APlayerCamera* m_pPlayerCamera;
-		ACharacterController* m_pCharacterController;
+	UPROPERTY()
+	TArray<AActor*> m_pPlayerCameraArray;
+	UPROPERTY()
+	TArray<AActor*> m_pCharacterControllerArray;
+	UPROPERTY()
+	APlayerCamera* m_pPlayerCamera;
+	UPROPERTY()
+	ACharacterController* m_pCharacterController;
+	UPROPERTY()
+	USceneComponent* m_pPlayerCameraRotationOrigin;
 
-		USceneComponent* m_pPlayerCameraRotationOrigin;
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<AActor> CameraToGenerate;
 };
