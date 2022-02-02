@@ -18,7 +18,7 @@ void ASamplePlayerController::BeginPlay() {
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACharacterController::StaticClass(), m_pCharacterControllerArray);
 
     if(!m_pCharacterControllerArray.IsEmpty())
-    m_pCharacterController = Cast<ACharacterController>(m_pCharacterControllerArray[0]); // Gets First Found ACharacterController
+        m_pCharacterController = Cast<ACharacterController>(m_pCharacterControllerArray[0]); // Gets First Found ACharacterController
 
     if (m_pCharacterController == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pCharacterController IS NULL!::BeginPlay"));
@@ -30,11 +30,11 @@ void ASamplePlayerController::BeginPlay() {
         m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]); // Gets First Found APlayerCamera
 
     if (m_pPlayerCamera == nullptr)
+    {
         m_pPlayerCamera = NewObject<APlayerCamera>(CameraToGenerate);
-
-    if (m_pPlayerCamera == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
-
+    }
+    
     if (m_pPlayerCamera != nullptr)
         m_pPlayerCameraRotationOrigin = Cast<USceneComponent>(m_pPlayerCamera->GetDefaultSubobjectByName(TEXT("RotationOrigin")));
     else
@@ -159,6 +159,11 @@ void ASamplePlayerController::RotateCharacter() {
     }
     else
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pCharacterController || m_pPlayerCameraRotationOrigin IS NULL!::RotateCharacter"));
+}
+
+void ASamplePlayerController::KillPlayer() {
+
+    m_pCharacterController->PlayerDeath();
 }
 
 float ASamplePlayerController::GetCameraYawRotation() {

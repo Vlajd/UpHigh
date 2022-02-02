@@ -38,13 +38,17 @@ public:
 
 	virtual void CallZoom(float value);
 
+
+	//Debug Function
 	virtual void DebugFunction();
 
 
 	virtual void RotateCharacter();
 
+	virtual void KillPlayer();
+
 	float GetCameraYawRotation();
-	
+
 	UPROPERTY()
 	TArray<AActor*> m_pPlayerCameraArray;
 	UPROPERTY()

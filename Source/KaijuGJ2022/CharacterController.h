@@ -36,7 +36,7 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		void PlayerDeath();
 
-		FRotator GetCurrentRotation();
+		FRotator GetCurrentRotation() const;
 
 		UPROPERTY(EditAnywhere, Category = "Script") float m_RotationToCameraSpeed;
 		UPROPERTY(EditAnywhere, Category = "Script") FVector m_SpawnCoords;
@@ -46,8 +46,12 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		UCharacterMovementComponent* m_CharacterMovementComponent;
 
-		FVector2D m_PointDir;
+		float m_PointDirX;
+		float m_PointDirY;
 
+		bool m_CanMove;
+
+		//Animation Variables
 		float m_Timer;
 		bool m_IsSummoning;
 		bool m_SummonAnimBool;
