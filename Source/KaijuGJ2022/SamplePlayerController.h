@@ -11,13 +11,13 @@
 #include "SamplePlayerController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class KAIJUGJ2022_API ASamplePlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 	public:
 		ASamplePlayerController();
 
@@ -38,6 +38,13 @@ public:
 
 	virtual void CallZoom(float value);
 
+	virtual void DebugFunction();
+
+
+	virtual void RotateCharacter();
+
+	float GetCameraYawRotation();
+
 	virtual void RotateCharacter();
 
 	UPROPERTY()
@@ -50,6 +57,8 @@ public:
 	ACharacterController* m_pCharacterController;
 	UPROPERTY()
 	USceneComponent* m_pPlayerCameraRotationOrigin;
+
+
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<AActor> CameraToGenerate;
