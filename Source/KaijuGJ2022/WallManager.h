@@ -20,8 +20,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	void WasHit(FHitResult hitPoint);
+	
+	UPROPERTY(EditAnywhere)
+	    UStaticMesh* Wall;
 };

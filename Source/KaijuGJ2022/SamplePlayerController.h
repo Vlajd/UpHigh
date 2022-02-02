@@ -44,9 +44,7 @@ public:
 	virtual void RotateCharacter();
 
 	float GetCameraYawRotation();
-
-	virtual void RotateCharacter();
-
+	
 	UPROPERTY()
 	TArray<AActor*> m_pPlayerCameraArray;
 	UPROPERTY()
