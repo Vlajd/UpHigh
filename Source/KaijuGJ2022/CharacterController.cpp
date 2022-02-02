@@ -8,11 +8,13 @@ ACharacterController::ACharacterController()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 	m_pMesh = GetMesh();
 
 	m_HasDied = false;
 
+	m_CanMove = true;
+	
 	m_SummonRate = 10.0f;
 
 	m_SpawnCoords.Set(0.0f, 0.0f, 0.0f);
@@ -58,6 +60,7 @@ void ACharacterController::Tick(float DeltaTime)
 			m_HasDied = false;
 			m_IsSummoning = false;
 			m_SummonAnimBool = true;
+			m_CanMove = true;
 		}
 		else {
 
@@ -65,25 +68,27 @@ void ACharacterController::Tick(float DeltaTime)
 		}
 
 	}
+
+	// GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Blue, FString::Printf(TEXT("MoveFwBw: %f, %f"), m_PointDirX, m_PointDirY));
+
 }
 
 void ACharacterController::MoveFwBw(float value)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("ACharacterController::MoveFwBw Is Called!"));
-
-
-	// W (-1) should equal to -180.0f 
-	// S (1) should equal to 0.0f 
-	m_PointDir.Set(FMath::Clamp<float>(value * 180.0f, -180.0f, 0.0f), m_PointDir.Y);
-
-	// this does not get executed currently for some reason:
-	GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Blue, FString::Printf(TEXT("MoveFwBw: %f, %f"), m_PointDir.X, m_PointDir.Y));
-
-	if (value) {
-
-		AddMovementInput(GetActorForwardVector(), value * movementSpeed);
 	
-		RotateMesh();
+	if (m_CanMove) {
+		
+		// W (-1) should equal to -180.0f 
+		// S (1) should equal to 0.0f
+		m_PointDirX = FMath::Clamp<float>(value * 90.0f, -90.0f, 0.0f);
+
+		if (value) {
+
+			AddMovementInput(GetActorForwardVector(), value * movementSpeed);
+	
+			RotateMesh();
+		}
 	}
 }
 
@@ -91,19 +96,17 @@ void ACharacterController::MoveRL(float value)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("ACharacterController::MoveFwBw Is Called!"));
 
-	// D (-1) should equal to -90.0f
-	// A (1) should equal to 90.0f
-	m_PointDir.Set(m_PointDir.X, FMath::Clamp<float>(value * 90.0f, -90.0f, 90.0f));
+	if (m_CanMove) {
+		// D (-1) should equal to -90.0f
+		// A (1) should equal to 90.0f
+		m_PointDirY = FMath::Clamp<float>(value * 90.0f, 90.0f, -90.0f);
 
-	// this does not get executed currently for some reason:
-	GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Blue, FString::Printf(TEXT("MoveRL: %f, %f"), m_PointDir.X, m_PointDir.Y));
+		if (value)
+		{
+			AddMovementInput(GetActorRightVector(), value * movementSpeed);
 
-
-	if (value)
-	{
-		AddMovementInput(GetActorRightVector(), value * movementSpeed);
-
-		RotateMesh();
+			RotateMesh();
+		}
 	}
 }
 
@@ -114,14 +117,15 @@ void ACharacterController::RotateOnCamera(float rotation) {
 
 void ACharacterController::RotateMesh() {
 
-	GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("PointDir: %f, %f"), m_PointDir.X, m_PointDir.Y));
+	// GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("PointDir: %f, %f"), m_PointDir.X, m_PointDir.Y));
 
-	m_pMesh->SetRelativeRotation(FRotator(0.0f, m_PointDir.X + m_PointDir.Y, 0.0f));
+	m_pMesh->SetRelativeRotation(FRotator(0.0f, m_PointDirX + m_PointDirX - m_PointDirY, 0.0f));
 
-	m_PointDir.Set(0.0f, 0.0f);
+	m_PointDirX = 0.0f;
+	m_PointDirY = 0.0f;
 }
 
-FRotator ACharacterController::GetCurrentRotation() {
+FRotator ACharacterController::GetCurrentRotation() const {
 
 	return GetActorRotation();
 }
@@ -131,4 +135,5 @@ void ACharacterController::PlayerDeath() {
 	m_Timer = 0.01f;
 	m_SummonAnimBool = true;
 	m_HasDied = true;
+	m_CanMove = false;
 }
