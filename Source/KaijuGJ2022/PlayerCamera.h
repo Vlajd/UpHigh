@@ -10,7 +10,7 @@
 #include "UObject/UObjectGlobals.h"
 #include "PlayerCamera.generated.h"
 
-UCLASS() class KAIJUGJ2022_API APlayerCamera : public ACharacter {
+UCLASS() class KAIJUGJ2022_API APlayerCamera : public APawn {
 
 	GENERATED_BODY()
 
