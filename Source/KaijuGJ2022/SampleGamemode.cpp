@@ -5,6 +5,6 @@
 
 ASampleGamemode::ASampleGamemode() {
 
-	//DefaultPawnClass = APlayerCamera::StaticClass();
+	DefaultPawnClass = APlayerCamera::StaticClass();
 	PlayerControllerClass = ASamplePlayerController::StaticClass();
 }

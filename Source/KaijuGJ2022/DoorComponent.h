@@ -29,4 +29,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Script") float m_MinDistanceInCm;
 
 	void OnCallDoorAnim(ACharacterController* characterController);
+
+	UPROPERTY(EditAnywhere, Category = "Script") bool m_NeedsKey;
 };

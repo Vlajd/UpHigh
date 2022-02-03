@@ -47,22 +47,6 @@ void APlayerCamera::Tick(float DeltaTime) {
 	m_Cam->SetRelativeLocation(FMath::Lerp(m_Cam->GetRelativeLocation(), m_ZoomTarget->GetRelativeLocation(), m_ZoomSpeed * DeltaTime));
 }
 
-// Called to bind functionality to input
-//void APlayerCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
-//
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
-//
-//	InputComponent->BindAxis("MouseHorizontalRotation", this, &APlayerCamera::MouseHorizontalRotate);
-//	InputComponent->BindAxis("MouseVerticalRotation", this, &APlayerCamera::MouseVerticalRotate);
-//
-//	InputComponent->BindAxis("ControllerHorizontalRotation", this, &APlayerCamera::HorizontalRotate);
-//	InputComponent->BindAxis("ControllerVerticalRotation", this, &APlayerCamera::VerticalRotate);
-//
-//	InputComponent->BindAxis("MouseButtonRightHold", this, &APlayerCamera::SetCanRotate);
-//
-//	InputComponent->BindAxis("Zoom", this, &APlayerCamera::Zoom);
-//}
-
 void APlayerCamera::MouseHorizontalRotate(float value) {
 
 	if (m_CanRotate) {

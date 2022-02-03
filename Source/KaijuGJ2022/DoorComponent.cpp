@@ -12,6 +12,8 @@ ADoorComponent::ADoorComponent()
 	m_MinDistanceInCm = 200.0f;
 	
 	m_IsOpen = false;
+
+	m_NeedsKey = false;
 }
 
 // Called when the game starts or when spawned

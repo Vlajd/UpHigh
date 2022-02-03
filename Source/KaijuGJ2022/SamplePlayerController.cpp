@@ -8,6 +8,7 @@ ASamplePlayerController::ASamplePlayerController() {
     PrimaryActorTick.bCanEverTick = true;
     PrimaryActorTick.bStartWithTickEnabled = true;
 
+    m_IsGamePaused = false;
 }
 
 void ASamplePlayerController::BeginPlay() {
@@ -35,16 +36,26 @@ void ASamplePlayerController::BeginPlay() {
     if (!m_pPlayerCameraArray.IsEmpty())
         m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]); // Gets First Found APlayerCamera
 
-    if (m_pPlayerCamera == nullptr)
+    /*if (m_pPlayerCamera == nullptr)
     {
         m_pPlayerCamera = NewObject<APlayerCamera>(CameraToGenerate);
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
-    }
+    }*/
     
     if (m_pPlayerCamera != nullptr)
         m_pPlayerCameraRotationOrigin = Cast<USceneComponent>(m_pPlayerCamera->GetDefaultSubobjectByName(TEXT("RotationOrigin")));
     else
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("m_pPlayerCamera IS NULL!::Get m_pPlayerCameraRotationOrigin"));
+
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AKeyItem::StaticClass(), m_pKeyArray);
+
+    if (!m_pKeyArray.IsEmpty())
+        m_pKey = Cast<AKeyItem>(m_pKeyArray[0]);
+    else
+        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("m_pKeyArray Is Empty"));
+
+    m_HasKey = false;
+    m_IsGamePaused = false;
 
     Possess(m_pPlayerCamera);
 }
@@ -74,6 +85,7 @@ void ASamplePlayerController::SetupInputComponent() {
 
     InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
     InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
+    InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
@@ -175,8 +187,36 @@ void ASamplePlayerController::KillPlayer() {
 
 void ASamplePlayerController::TryOpenDoor()
 {
+    for (int i = 0; i < m_pDoorObjectArray.Num(); i++)
+    {
+        if (m_pDoorObjectArray[i] != nullptr)
+        {
+            if (!m_pDoorObjectArray[i]->m_NeedsKey) {
+                m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
+            }
+            else if (m_HasKey)
+            {
+                m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
+                m_pDoorObjectArray[i]->m_NeedsKey = false;
+                m_HasKey = false;
+            }
+        }
+        else {
+            GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, FString::Printf(TEXT("DoorComponent At Index %i is NULL"), i));
+        }
+    }
+}
 
-    
+void ASamplePlayerController::TryPickUpKey()
+{
+    if (m_pKey || m_pCharacterController == nullptr)
+    {
+        if (FVector::Distance(m_pKey->GetActorLocation(), m_pCharacterController->GetActorLocation()) < m_pKey->m_MinDistInCm)
+        {
+            m_pKey->Destroy();
+            m_HasKey = true;
+        }
+    }
 }
 
 float ASamplePlayerController::GetCameraYawRotation() {
@@ -187,17 +227,31 @@ float ASamplePlayerController::GetCameraYawRotation() {
         return 0.0f;
 }
 
+void ASamplePlayerController::PauseGame()
+{
+    m_IsGamePaused = !m_IsGamePaused;
+
+    FInputModeGameAndUI Mode;
+    
+    if(!m_IsGamePaused)
+    {
+        m_PauseMenu = CreateWidget<UPauseMenu>(this, UPauseMenu::StaticClass());
+        Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+        Mode.SetHideCursorDuringCapture(false);
+        SetInputMode(Mode);
+        m_PauseMenu->AddToViewport(9999);
+    }
+    else
+    {
+        m_PauseMenu->Destruct();
+        Mode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
+        Mode.SetHideCursorDuringCapture(true);
+        SetInputMode(Mode);
+    }
+}
+
 void ASamplePlayerController::CallUse()
 {
-
-    for (int i = 0; i < m_pDoorObjectArray.Num(); i++)
-    {
-        if (m_pDoorObjectArray[i] != nullptr)
-        {
-            m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
-        }
-        else {
-            GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, FString::Printf(TEXT("DoorComponent At Index %i is NULL"), i));
-        }
-    }
+    TryOpenDoor();
+    TryPickUpKey();
 }

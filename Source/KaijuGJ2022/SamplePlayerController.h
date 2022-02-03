@@ -7,8 +7,10 @@
 #include "PlayerCamera.h"
 #include "CharacterController.h"
 #include "DoorComponent.h"
+#include "KeyItem.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "PauseMenu.h"
 #include "SamplePlayerController.generated.h"
 
 /**
@@ -49,10 +51,12 @@ public:
 	void KillPlayer();
 
 	void TryOpenDoor();
+	void TryPickUpKey();
 	
 	float GetCameraYawRotation();
 
-
+	void PauseGame();
+	
 	void CallUse();
 
 	UPROPERTY()
@@ -72,4 +76,11 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> CameraToGenerate;
+
+	UPROPERTY() bool m_HasKey;
+	TArray<AActor*> m_pKeyArray;
+	AKeyItem* m_pKey;
+	bool m_IsGamePaused;
+
+	UPauseMenu* m_PauseMenu;
 };
