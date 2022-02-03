@@ -14,7 +14,13 @@ void ASamplePlayerController::BeginPlay() {
 
     Super::BeginPlay();
 
-
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADoorComponent::StaticClass(), m_pDoorArray);
+    
+    for (int i = 0; i < m_pDoorArray.Num(); i++)
+    {
+        m_pDoorObjectArray.Add(ToRawPtr(Cast<ADoorComponent>(m_pDoorArray[i])));
+    }
+        
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACharacterController::StaticClass(), m_pCharacterControllerArray);
 
     if(!m_pCharacterControllerArray.IsEmpty())
@@ -67,6 +73,7 @@ void ASamplePlayerController::SetupInputComponent() {
     InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
 
     InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
+    InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
@@ -166,10 +173,31 @@ void ASamplePlayerController::KillPlayer() {
     m_pCharacterController->PlayerDeath();
 }
 
+void ASamplePlayerController::TryOpenDoor()
+{
+
+    
+}
+
 float ASamplePlayerController::GetCameraYawRotation() {
 
     if (m_pPlayerCameraRotationOrigin != nullptr)
         return m_pPlayerCameraRotationOrigin->GetRelativeRotation().Yaw;
     else
         return 0.0f;
+}
+
+void ASamplePlayerController::CallUse()
+{
+
+    for (int i = 0; i < m_pDoorObjectArray.Num(); i++)
+    {
+        if (m_pDoorObjectArray[i] != nullptr)
+        {
+            m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
+        }
+        else {
+            GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, FString::Printf(TEXT("DoorComponent At Index %i is NULL"), i));
+        }
+    }
 }
