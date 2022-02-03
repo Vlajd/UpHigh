@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PlayerCamera.h"
 #include "CharacterController.h"
+#include "DoorComponent.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SamplePlayerController.generated.h"
@@ -18,36 +19,41 @@ class KAIJUGJ2022_API ASamplePlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-	public:
-		ASamplePlayerController();
+public:
+	ASamplePlayerController();
 
-	protected:
-		virtual void BeginPlay() override;
+protected:
+	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupInputComponent() override;
 
-	virtual void CallMoveFwBw(float value);
-	virtual void CallMoveRL(float value);
+	void CallMoveFwBw(float value);
+	void CallMoveRL(float value);
 
 	//CAMERA
-	virtual void CallHorizontalRotate(float value);
-	virtual void CallVerticalRotate(float value);
+	void CallHorizontalRotate(float value);
+	void CallVerticalRotate(float value);
 
-	virtual void CallZoom(float value);
+	void CallZoom(float value);
 
-
+	
 	//Debug Function
-	virtual void DebugFunction();
+	void DebugFunction();
 
+	
+	void RotateCharacter();
 
-	virtual void RotateCharacter();
+	void KillPlayer();
 
-	virtual void KillPlayer();
-
+	void TryOpenDoor();
+	
 	float GetCameraYawRotation();
+
+
+	void CallUse();
 
 	UPROPERTY()
 	TArray<AActor*> m_pPlayerCameraArray;
@@ -59,9 +65,11 @@ public:
 	ACharacterController* m_pCharacterController;
 	UPROPERTY()
 	USceneComponent* m_pPlayerCameraRotationOrigin;
-
-
+	UPROPERTY()
+	TArray<AActor*> m_pDoorArray;
+	UPROPERTY()
+	TArray<ADoorComponent*> m_pDoorObjectArray;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-		TSubclassOf<AActor> CameraToGenerate;
+	TSubclassOf<AActor> CameraToGenerate;
 };

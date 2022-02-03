@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CharacterController.h"
 
 // Sets default values
@@ -130,10 +129,14 @@ FRotator ACharacterController::GetCurrentRotation() const {
 	return GetActorRotation();
 }
 
+
 void ACharacterController::PlayerDeath() {
 
 	m_Timer = 0.01f;
 	m_SummonAnimBool = true;
 	m_HasDied = true;
 	m_CanMove = false;
+
+	// testval++;
+	// GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("PointDir: %i"), testval));
 }
