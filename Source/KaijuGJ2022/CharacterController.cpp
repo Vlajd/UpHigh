@@ -87,6 +87,8 @@ void ACharacterController::MoveFwBw(float value)
 			AddMovementInput(GetActorForwardVector(), value * movementSpeed);
 	
 			RotateMesh();
+
+			m_IsMoving = true;
 		}
 	}
 }
@@ -94,7 +96,7 @@ void ACharacterController::MoveFwBw(float value)
 void ACharacterController::MoveRL(float value)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("ACharacterController::MoveFwBw Is Called!"));
-
+	
 	if (m_CanMove) {
 		// D (-1) should equal to -90.0f
 		// A (1) should equal to 90.0f
@@ -105,6 +107,8 @@ void ACharacterController::MoveRL(float value)
 			AddMovementInput(GetActorRightVector(), value * movementSpeed);
 
 			RotateMesh();
+
+			m_IsMoving = true;
 		}
 	}
 }

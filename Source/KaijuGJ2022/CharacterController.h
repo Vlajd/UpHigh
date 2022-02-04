@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "CharacterAnimation.h"
 #include "CharacterController.generated.h"
 
 UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
@@ -49,6 +50,11 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		float m_PointDirX;
 		float m_PointDirY;
 
+		void SetIsMovingFalse() { m_IsMoving = false; }
+		UFUNCTION(BlueprintCallable) bool GetCurrentVelocity() { return m_IsMoving; }
+	
+		bool m_IsMoving;
+	
 		bool m_CanMove;
 
 		//Animation Variables
