@@ -29,6 +29,7 @@ APlayerCamera::APlayerCamera() {
 	m_ZoomSpeed = 5.0f;
 	m_MinZoom = 5.0f;
 	m_MaxZoom = 5000.0f;
+	m_SpawnLocation.Set(0.0f, 0.0f, 80.0f);
 }
 
 // Called when the game starts or when spawned
@@ -36,6 +37,7 @@ void APlayerCamera::BeginPlay() {
 
 	Super::BeginPlay();
 
+	SetActorLocation(m_SpawnLocation);
 	m_ZoomTarget->SetRelativeLocation(m_Cam->GetRelativeLocation());
 }
 

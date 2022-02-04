@@ -8,7 +8,7 @@ ASamplePlayerController::ASamplePlayerController() {
     PrimaryActorTick.bCanEverTick = true;
     PrimaryActorTick.bStartWithTickEnabled = true;
 
-    m_IsGamePaused = false;
+    m_CanPlayerMove = true;
 }
 
 void ASamplePlayerController::BeginPlay() {
@@ -55,9 +55,6 @@ void ASamplePlayerController::BeginPlay() {
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("m_pKeyArray Is Empty"));
 
     m_HasKey = false;
-    m_IsGamePaused = false;
-
-    Possess(m_pPlayerCamera);
 }
 
 void ASamplePlayerController::Tick(float DeltaTime) {
@@ -72,20 +69,23 @@ void ASamplePlayerController::SetupInputComponent() {
     check(InputComponent);
 
     // This is initialized on startup, you can go straight to binding
-    InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
-    InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
+    if (m_CanPlayerMove)
+    {
+        InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
+        InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
 
-    //CAMERA
-    InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-    InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
-    InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-    InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
+        //CAMERA
+        InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
+        InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
+        InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
+        InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
 
-    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
+        InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
 
-    InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
-    InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
-    InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
+        InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
+        InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
+        InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
+    }
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
@@ -225,29 +225,6 @@ float ASamplePlayerController::GetCameraYawRotation() {
         return m_pPlayerCameraRotationOrigin->GetRelativeRotation().Yaw;
     else
         return 0.0f;
-}
-
-void ASamplePlayerController::PauseGame()
-{
-    m_IsGamePaused = !m_IsGamePaused;
-
-    FInputModeGameAndUI Mode;
-    
-    if(!m_IsGamePaused)
-    {
-        m_PauseMenu = CreateWidget<UPauseMenu>(this, UPauseMenu::StaticClass());
-        Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-        Mode.SetHideCursorDuringCapture(false);
-        SetInputMode(Mode);
-        m_PauseMenu->AddToViewport(9999);
-    }
-    else
-    {
-        m_PauseMenu->Destruct();
-        Mode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
-        Mode.SetHideCursorDuringCapture(true);
-        SetInputMode(Mode);
-    }
 }
 
 void ASamplePlayerController::CallUse()

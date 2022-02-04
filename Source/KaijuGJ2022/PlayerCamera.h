@@ -47,6 +47,7 @@ UCLASS() class KAIJUGJ2022_API APlayerCamera : public APawn {
 		UPROPERTY(EditAnywhere, Category = "Script") float m_MinZoom;
 		UPROPERTY(EditAnywhere, Category = "Script") float m_MaxZoom;
 		UPROPERTY(EditAnywhere, Category = "Script") float m_ZoomSpeed;
+		UPROPERTY(EditAnywhere, Category = "Script") FVector m_SpawnLocation;
 
 		bool m_CanRotate;
 		//FObjectInitializer* m_pObjectInitializer;

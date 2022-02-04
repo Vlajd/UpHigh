@@ -55,7 +55,10 @@ public:
 	
 	float GetCameraYawRotation();
 
-	void PauseGame();
+	UFUNCTION(BlueprintImplementableEvent) void PauseGame();
+
+	UFUNCTION(BlueprintCallable) void SetPlayerInputFalse() { m_CanPlayerMove = false; }
+	UFUNCTION(BlueprintCallable) void SetPlayerInputTrue() { m_CanPlayerMove = true; }
 	
 	void CallUse();
 
@@ -80,7 +83,6 @@ public:
 	UPROPERTY() bool m_HasKey;
 	TArray<AActor*> m_pKeyArray;
 	AKeyItem* m_pKey;
-	bool m_IsGamePaused;
 
-	UPauseMenu* m_PauseMenu;
+	UPROPERTY(VisibleAnywhere, Category = "Script") bool m_CanPlayerMove;
 };
