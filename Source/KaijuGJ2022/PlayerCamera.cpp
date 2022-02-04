@@ -24,8 +24,8 @@ APlayerCamera::APlayerCamera() {
 	FVector viewDir = m_RotationOrigin->GetRelativeLocation() - m_Cam->GetRelativeLocation();
 	m_Cam->SetRelativeRotation(viewDir.Rotation());
 
-	m_MinPitch = -10.0f;
-	m_MaxPitch = 30.0f;
+	m_MinPitch = 0.0f;
+	m_MaxPitch = 40.0f;
 	m_ZoomSpeed = 5.0f;
 	m_MinZoom = 5.0f;
 	m_MaxZoom = 5000.0f;

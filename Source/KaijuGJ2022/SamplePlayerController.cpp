@@ -67,7 +67,7 @@ void ASamplePlayerController::SetupInputComponent() {
     Super::SetupInputComponent();
 
     check(InputComponent);
-
+    
     // This is initialized on startup, you can go straight to binding
     if (m_CanPlayerMove)
     {
@@ -91,7 +91,9 @@ void ASamplePlayerController::SetupInputComponent() {
 void ASamplePlayerController::CallMoveFwBw(float value) {
 
     if (m_pCharacterController != nullptr) {
-     
+
+        m_pCharacterController->SetIsMovingFalse();
+        
         if (value) {
 
             m_pCharacterController->MoveFwBw(value);

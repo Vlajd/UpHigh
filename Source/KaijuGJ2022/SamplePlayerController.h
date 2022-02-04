@@ -59,6 +59,7 @@ public:
 
 	UFUNCTION(BlueprintCallable) void SetPlayerInputFalse() { m_CanPlayerMove = false; }
 	UFUNCTION(BlueprintCallable) void SetPlayerInputTrue() { m_CanPlayerMove = true; }
+	UFUNCTION(BlueprintCallable) ACharacter* GetCharacterController() { return m_pCharacterController; }
 	
 	void CallUse();
 
