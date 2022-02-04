@@ -55,6 +55,8 @@ void ASamplePlayerController::BeginPlay() {
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("m_pKeyArray Is Empty"));
 
     m_HasKey = false;
+
+    m_CanPlayerMove = true;
 }
 
 void ASamplePlayerController::Tick(float DeltaTime) {
@@ -67,28 +69,32 @@ void ASamplePlayerController::SetupInputComponent() {
     Super::SetupInputComponent();
 
     check(InputComponent);
+<<<<<<< Updated upstream
     
+=======
+
+    GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("it got called now"));
+
+>>>>>>> Stashed changes
     // This is initialized on startup, you can go straight to binding
-    if (m_CanPlayerMove)
-    {
-        InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
-        InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
+    InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
+    InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
 
-        //CAMERA
-        InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-        InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
-        InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-        InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
+    //CAMERA
+    InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
+    InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
+    InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
+    InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
 
-        InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
+    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
 
-        InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
-        InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
-        InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
-    }
+    InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
+    InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
+    InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
+    if (!m_CanPlayerMove) return;
 
     if (m_pCharacterController != nullptr) {
 
@@ -106,6 +112,7 @@ void ASamplePlayerController::CallMoveFwBw(float value) {
 }
 
 void ASamplePlayerController::CallMoveRL(float value) {
+    if (!m_CanPlayerMove) return;
 
     if (m_pCharacterController != nullptr) {
 
@@ -121,6 +128,7 @@ void ASamplePlayerController::CallMoveRL(float value) {
 }
 
 void ASamplePlayerController::CallHorizontalRotate(float value) {
+    if (!m_CanPlayerMove) return;
 
     if (m_pPlayerCamera != nullptr) {
 
@@ -135,6 +143,7 @@ void ASamplePlayerController::CallHorizontalRotate(float value) {
 }
 
 void ASamplePlayerController::CallVerticalRotate(float value) {
+    if (!m_CanPlayerMove) return;
 
     if (m_pPlayerCamera != nullptr) {
 
@@ -149,6 +158,7 @@ void ASamplePlayerController::CallVerticalRotate(float value) {
 }
 
 void ASamplePlayerController::CallZoom(float value) {
+    if (!m_CanPlayerMove) return;
 
     if (m_pPlayerCamera != nullptr) {
 
@@ -173,6 +183,7 @@ void ASamplePlayerController::DebugFunction() {
 
 
 void ASamplePlayerController::RotateCharacter() {
+    if (!m_CanPlayerMove) return;
 
     if (m_pCharacterController != nullptr) {
 
@@ -183,6 +194,7 @@ void ASamplePlayerController::RotateCharacter() {
 }
 
 void ASamplePlayerController::KillPlayer() {
+    if (!m_CanPlayerMove) return;
 
     m_pCharacterController->PlayerDeath();
 }
@@ -231,6 +243,7 @@ float ASamplePlayerController::GetCameraYawRotation() {
 
 void ASamplePlayerController::CallUse()
 {
+    if (!m_CanPlayerMove) return;
     TryOpenDoor();
     TryPickUpKey();
 }
