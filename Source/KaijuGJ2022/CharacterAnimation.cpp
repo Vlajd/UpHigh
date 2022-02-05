@@ -3,3 +3,9 @@
 
 #include "CharacterAnimation.h"
 
+void UCharacterAnimation::NativeBeginPlay()
+{
+	Super::NativeBeginPlay();
+
+	BPBeginPlay();
+}

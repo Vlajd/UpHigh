@@ -52,6 +52,11 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		void SetIsMovingFalse() { m_IsMoving = false; }
 		UFUNCTION(BlueprintCallable) bool GetCurrentVelocity() { return m_IsMoving; }
+
+		UFUNCTION(BlueprintImplementableEvent) void ShowPauseMenu();
+
+		UFUNCTION(BlueprintImplementableEvent) void UFUNCTIONCallSetIsUsing(int useType);
+		UPROPERTY(BlueprintReadWrite) int CCUsetype;
 	
 		bool m_IsMoving;
 	

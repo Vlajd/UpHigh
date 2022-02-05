@@ -28,7 +28,7 @@ public:
 	UPROPERTY(BlueprintReadOnly) bool m_IsOpen;
 	UPROPERTY(EditAnywhere, Category = "Script") float m_MinDistanceInCm;
 
-	void OnCallDoorAnim(ACharacterController* characterController);
+	void OnCallDoorAnim();
 
 	UPROPERTY(EditAnywhere, Category = "Script") bool m_NeedsKey;
 };
