@@ -55,11 +55,14 @@ public:
 	
 	float GetCameraYawRotation();
 
-	UFUNCTION(BlueprintImplementableEvent) void PauseGame();
+	void PauseGame() { if (m_pCharacterController != nullptr) m_pCharacterController->ShowPauseMenu(); };
 
 	UFUNCTION(BlueprintCallable) void SetPlayerInputFalse() { m_CanPlayerMove = false; }
 	UFUNCTION(BlueprintCallable) void SetPlayerInputTrue() { m_CanPlayerMove = true; }
 	UFUNCTION(BlueprintCallable) ACharacter* GetCharacterController() { return m_pCharacterController; }
+
+	// returns UseType
+	void CallSetIsUsing(int useType) { m_pCharacterController->UFUNCTIONCallSetIsUsing(useType); };
 	
 	void CallUse();
 
@@ -78,6 +81,10 @@ public:
 	UPROPERTY()
 	TArray<ADoorComponent*> m_pDoorObjectArray;
 
+	// 1 is OpenDoor
+	// 2 is PickupKey
+	UPROPERTY(BlueprintReadOnly) int m_UseType;
+	
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> CameraToGenerate;
 

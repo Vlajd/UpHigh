@@ -13,9 +13,12 @@ UCLASS()
 class KAIJUGJ2022_API UCharacterAnimation : public UAnimInstance
 {
 	GENERATED_BODY()
-
+	
 public:
-
+	virtual void NativeBeginPlay() override;
+	
+	UFUNCTION(BlueprintImplementableEvent) void BPBeginPlay();
+	
 	UFUNCTION(BlueprintCallable) void SetIsMoving(bool isMoving) { m_CharacterIsMoving = isMoving; }
 	
 	UFUNCTION(BlueprintCallable) bool IsMoving() { return m_CharacterIsMoving; }

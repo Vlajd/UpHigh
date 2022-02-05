@@ -31,16 +31,8 @@ void ADoorComponent::Tick(float DeltaTime)
 
 }
 
-void ADoorComponent::OnCallDoorAnim(ACharacterController* characterController)
+void ADoorComponent::OnCallDoorAnim()
 {
-
-	if (characterController != nullptr)
-	{
-		if(FVector::Distance(characterController->GetActorLocation(), GetActorLocation()) <= m_MinDistanceInCm)
-		{
-
-			m_IsOpen = !m_IsOpen;
-			CallDoorAnim();
-		}
-	}
+	m_IsOpen = !m_IsOpen;
+	CallDoorAnim();
 }

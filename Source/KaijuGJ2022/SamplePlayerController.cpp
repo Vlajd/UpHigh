@@ -57,6 +57,7 @@ void ASamplePlayerController::BeginPlay() {
     m_HasKey = false;
 
     m_CanPlayerMove = true;
+    m_UseType = 0;
 }
 
 void ASamplePlayerController::Tick(float DeltaTime) {
@@ -69,28 +70,27 @@ void ASamplePlayerController::SetupInputComponent() {
     Super::SetupInputComponent();
 
     check(InputComponent);
-<<<<<<< Updated upstream
-    
-=======
-
-    GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("it got called now"));
-
->>>>>>> Stashed changes
+// <<<<<<< Updated upstream
+// =======
+    // GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("it got called now"));
+// >>>>>>> Stashed changes
     // This is initialized on startup, you can go straight to binding
-    InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
-    InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
+    InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL).bExecuteWhenPaused = false;
 
     //CAMERA
-    InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-    InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
-    InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate);
-    InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate);
+    InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate).bExecuteWhenPaused = false;
 
-    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom);
+    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom).bExecuteWhenPaused = false;
 
-    InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction);
-    InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse);
-    InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame);
+    InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction).bExecuteWhenPaused = false;
+    InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse).bExecuteWhenPaused = false;
+
+    //pause game
+    InputComponent->BindAction("PauseButton", IE_Pressed, this, &ASamplePlayerController::PauseGame).bExecuteWhenPaused = true;
 }
 
 void ASamplePlayerController::CallMoveFwBw(float value) {
@@ -201,18 +201,25 @@ void ASamplePlayerController::KillPlayer() {
 
 void ASamplePlayerController::TryOpenDoor()
 {
+    if (!m_CanPlayerMove) return;
+    
     for (int i = 0; i < m_pDoorObjectArray.Num(); i++)
     {
         if (m_pDoorObjectArray[i] != nullptr)
         {
-            if (!m_pDoorObjectArray[i]->m_NeedsKey) {
-                m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
-            }
-            else if (m_HasKey)
+            bool canInteract = FVector::Distance(m_pCharacterController->GetActorLocation(), m_pDoorObjectArray[i]->GetActorLocation()) < m_pDoorObjectArray[i]->m_MinDistanceInCm;
+            
+            if (!m_pDoorObjectArray[i]->m_NeedsKey && canInteract)
             {
-                m_pDoorObjectArray[i]->OnCallDoorAnim(m_pCharacterController);
+                m_pDoorObjectArray[i]->OnCallDoorAnim();
+                CallSetIsUsing(1);
+            }
+            else if (m_HasKey && canInteract)
+            {
+                m_pDoorObjectArray[i]->OnCallDoorAnim();
                 m_pDoorObjectArray[i]->m_NeedsKey = false;
                 m_HasKey = false;
+                CallSetIsUsing(1);
             }
         }
         else {
@@ -229,6 +236,7 @@ void ASamplePlayerController::TryPickUpKey()
         {
             m_pKey->Destroy();
             m_HasKey = true;
+            CallSetIsUsing(2);
         }
     }
 }
