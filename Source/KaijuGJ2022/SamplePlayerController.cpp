@@ -69,13 +69,7 @@ void ASamplePlayerController::SetupInputComponent() {
     Super::SetupInputComponent();
 
     check(InputComponent);
-<<<<<<< Updated upstream
     
-=======
-
-    GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("it got called now"));
-
->>>>>>> Stashed changes
     // This is initialized on startup, you can go straight to binding
     InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw);
     InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL);
