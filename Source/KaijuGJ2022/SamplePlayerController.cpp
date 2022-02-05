@@ -53,7 +53,7 @@ void ASamplePlayerController::SetupInputComponent() {
     // This is initialized on startup, you can go straight to binding
     InputComponent->BindAxis("MoveFwBw", this, &ASamplePlayerController::CallMoveFwBw).bExecuteWhenPaused = false;
     InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL).bExecuteWhenPaused = false;
-
+        
     //CAMERA
     InputComponent->BindAxis("HorizontalRotation", this, &ASamplePlayerController::PlayerCameraHorizontalRotation).bExecuteWhenPaused = false;
     InputComponent->BindAxis("VerticalRotation", this, &ASamplePlayerController::PlayerCameraVerticalRotation).bExecuteWhenPaused = false;
@@ -85,6 +85,7 @@ void ASamplePlayerController::CallMoveFwBw(float value) {
 }
 
 void ASamplePlayerController::CallMoveRL(float value) {
+    
     if (!m_CanPlayerMove) return;
 
     if (m_pCharacterController != nullptr) {

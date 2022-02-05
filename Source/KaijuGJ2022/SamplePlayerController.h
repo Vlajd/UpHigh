@@ -87,5 +87,5 @@ public:
 	TArray<AActor*> m_pKeyArray;
 	AKeyItem* m_pKey;
 
-	UPROPERTY(VisibleAnywhere, Category = "Script") bool m_CanPlayerMove;
+	UPROPERTY(BlueprintReadWrite, Category = "Script") bool m_CanPlayerMove;
 };

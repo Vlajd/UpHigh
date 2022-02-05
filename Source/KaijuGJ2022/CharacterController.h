@@ -66,5 +66,5 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		float m_Timer;
 		bool m_IsSummoning;
 		bool m_SummonAnimBool;
-		bool m_HasDied;
+		UPROPERTY(BlueprintReadWrite) bool m_HasDied;
 };
