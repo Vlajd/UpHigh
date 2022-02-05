@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "PlayerCamera.h"
 #include "CharacterController.h"
 #include "DoorComponent.h"
 #include "KeyItem.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "PauseMenu.h"
+#include "CPlayerCameraComponent.h"
 #include "SamplePlayerController.generated.h"
 
 /**
@@ -28,20 +28,12 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupInputComponent() override;
 
 	void CallMoveFwBw(float value);
 	void CallMoveRL(float value);
 
-	//CAMERA
-	void CallHorizontalRotate(float value);
-	void CallVerticalRotate(float value);
-
-	void CallZoom(float value);
-
-	
 	//Debug Function
 	void DebugFunction();
 
@@ -53,29 +45,32 @@ public:
 	void TryOpenDoor();
 	void TryPickUpKey();
 	
-	float GetCameraYawRotation();
-
 	void PauseGame() { if (m_pCharacterController != nullptr) m_pCharacterController->ShowPauseMenu(); };
 
 	UFUNCTION(BlueprintCallable) void SetPlayerInputFalse() { m_CanPlayerMove = false; }
 	UFUNCTION(BlueprintCallable) void SetPlayerInputTrue() { m_CanPlayerMove = true; }
 	UFUNCTION(BlueprintCallable) ACharacter* GetCharacterController() { return m_pCharacterController; }
 
+
+	//CAMERA BULLSHITTERING
+	UFUNCTION(BlueprintImplementableEvent) void PlayerCameraHorizontalRotation(float value);
+	UFUNCTION(BlueprintImplementableEvent) void PlayerCameraVerticalRotation(float value);
+	UFUNCTION(BlueprintImplementableEvent) void PlayerCameraZoom(float value);
+
+	UFUNCTION(BlueprintCallable) void CallPlayerCameraHorizontalRotation(float value, ACPlayerCameraComponent* myPlayer) { if (myPlayer != nullptr) myPlayer->OriginRotateHorizontal(value); }
+	UFUNCTION(BlueprintCallable) void CallPlayerCameraVerticalRotation(float value, ACPlayerCameraComponent* myPlayer) { if (myPlayer != nullptr) myPlayer->OriginRotateVertical(value); }
+	UFUNCTION(BlueprintCallable) void CallPlayerCameraZoom(float value, ACPlayerCameraComponent* myPlayer) { if (myPlayer != nullptr) myPlayer->ZoomTargetZoom(value); }
+	//CAMERA BULLSHITTERING
+	
 	// returns UseType
 	void CallSetIsUsing(int useType) { m_pCharacterController->UFUNCTIONCallSetIsUsing(useType); };
 	
 	void CallUse();
-
-	UPROPERTY()
-	TArray<AActor*> m_pPlayerCameraArray;
+	
 	UPROPERTY()
 	TArray<AActor*> m_pCharacterControllerArray;
 	UPROPERTY()
-	APlayerCamera* m_pPlayerCamera;
-	UPROPERTY()
 	ACharacterController* m_pCharacterController;
-	UPROPERTY()
-	USceneComponent* m_pPlayerCameraRotationOrigin;
 	UPROPERTY()
 	TArray<AActor*> m_pDoorArray;
 	UPROPERTY()

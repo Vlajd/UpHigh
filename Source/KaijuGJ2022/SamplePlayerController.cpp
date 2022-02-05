@@ -30,23 +30,6 @@ void ASamplePlayerController::BeginPlay() {
     if (m_pCharacterController == nullptr)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pCharacterController IS NULL!::BeginPlay"));
 
-
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCamera::StaticClass(), m_pPlayerCameraArray);
-
-    if (!m_pPlayerCameraArray.IsEmpty())
-        m_pPlayerCamera = Cast<APlayerCamera>(m_pPlayerCameraArray[0]); // Gets First Found APlayerCamera
-
-    /*if (m_pPlayerCamera == nullptr)
-    {
-        m_pPlayerCamera = NewObject<APlayerCamera>(CameraToGenerate);
-        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::BeginPlay"));
-    }*/
-
-    if (m_pPlayerCamera != nullptr)
-        m_pPlayerCameraRotationOrigin = Cast<USceneComponent>(m_pPlayerCamera->GetDefaultSubobjectByName(TEXT("RotationOrigin")));
-    else
-        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Green, TEXT("m_pPlayerCamera IS NULL!::Get m_pPlayerCameraRotationOrigin"));
-
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), AKeyItem::StaticClass(), m_pKeyArray);
 
     if (!m_pKeyArray.IsEmpty())
@@ -58,10 +41,6 @@ void ASamplePlayerController::BeginPlay() {
 
     m_CanPlayerMove = true;
     m_UseType = 0;
-}
-
-void ASamplePlayerController::Tick(float DeltaTime) {
-
 }
 
 void ASamplePlayerController::SetupInputComponent() {
@@ -76,12 +55,9 @@ void ASamplePlayerController::SetupInputComponent() {
     InputComponent->BindAxis("MoveRL", this, &ASamplePlayerController::CallMoveRL).bExecuteWhenPaused = false;
 
     //CAMERA
-    InputComponent->BindAxis("ControllerHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate).bExecuteWhenPaused = false;
-    InputComponent->BindAxis("ControllerVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate).bExecuteWhenPaused = false;
-    InputComponent->BindAxis("MouseHorizontalRotation", this, &ASamplePlayerController::CallHorizontalRotate).bExecuteWhenPaused = false;
-    InputComponent->BindAxis("MouseVerticalRotation", this, &ASamplePlayerController::CallVerticalRotate).bExecuteWhenPaused = false;
-
-    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::CallZoom).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("HorizontalRotation", this, &ASamplePlayerController::PlayerCameraHorizontalRotation).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("VerticalRotation", this, &ASamplePlayerController::PlayerCameraVerticalRotation).bExecuteWhenPaused = false;
+    InputComponent->BindAxis("Zoom", this, &ASamplePlayerController::PlayerCameraZoom).bExecuteWhenPaused = false;
 
     InputComponent->BindAction("DebugButton", IE_Pressed, this, &ASamplePlayerController::DebugFunction).bExecuteWhenPaused = false;
     InputComponent->BindAction("UseButton", IE_Pressed, this, &ASamplePlayerController::CallUse).bExecuteWhenPaused = false;
@@ -124,51 +100,6 @@ void ASamplePlayerController::CallMoveRL(float value) {
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pCharacterController IS NULL!::CallMoveRL"));
 }
 
-void ASamplePlayerController::CallHorizontalRotate(float value) {
-    if (!m_CanPlayerMove) return;
-
-    if (m_pPlayerCamera != nullptr) {
-
-        if (value) {
-
-            m_pPlayerCamera->HorizontalRotate(value);
-        }
-        else return;
-    }
-    else
-        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::CallHorizontalRotate"));
-}
-
-void ASamplePlayerController::CallVerticalRotate(float value) {
-    if (!m_CanPlayerMove) return;
-
-    if (m_pPlayerCamera != nullptr) {
-
-        if (value) {
-
-            m_pPlayerCamera->VerticalRotate(value);
-        }
-        else return;
-    }
-    else
-        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::CallVerticalRotate"));
-}
-
-void ASamplePlayerController::CallZoom(float value) {
-    if (!m_CanPlayerMove) return;
-
-    if (m_pPlayerCamera != nullptr) {
-
-        if (value) {
-
-            m_pPlayerCamera->Zoom(value);
-        }
-        else return;
-    }
-    else
-        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pPlayerCamera IS NULL!::CallZoom"));
-}
-
 
 // DEBUG FUNCTION
 
@@ -184,7 +115,7 @@ void ASamplePlayerController::RotateCharacter() {
 
     if (m_pCharacterController != nullptr) {
 
-        m_pCharacterController->RotateOnCamera(GetCameraYawRotation());
+        // m_pCharacterController->RotateOnCamera(GetCameraYawRotation());
     }
     else
         GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pCharacterController || m_pPlayerCameraRotationOrigin IS NULL!::RotateCharacter"));
@@ -236,14 +167,6 @@ void ASamplePlayerController::TryPickUpKey()
             CallSetIsUsing(2);
         }
     }
-}
-
-float ASamplePlayerController::GetCameraYawRotation() {
-
-    if (m_pPlayerCameraRotationOrigin != nullptr)
-        return m_pPlayerCameraRotationOrigin->GetRelativeRotation().Yaw;
-    else
-        return 0.0f;
 }
 
 void ASamplePlayerController::CallUse()
