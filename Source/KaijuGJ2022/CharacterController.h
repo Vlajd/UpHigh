@@ -31,7 +31,7 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		void MoveFwBw(float value);
 		void MoveRL(float value);
 
-		void RotateOnCamera(float rotation);
+		UFUNCTION(BlueprintCallable) void RotateOnCamera(float rotation);
 
 		void RotateMesh();
 

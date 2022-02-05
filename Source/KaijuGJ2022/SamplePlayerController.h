@@ -38,7 +38,7 @@ public:
 	void DebugFunction();
 
 	
-	void RotateCharacter();
+	UFUNCTION(BlueprintImplementableEvent) void RotateCharacter(ACharacterController* myPlayer);
 
 	void KillPlayer();
 
@@ -51,7 +51,6 @@ public:
 	UFUNCTION(BlueprintCallable) void SetPlayerInputTrue() { m_CanPlayerMove = true; }
 	UFUNCTION(BlueprintCallable) ACharacter* GetCharacterController() { return m_pCharacterController; }
 
-
 	//CAMERA BULLSHITTERING
 	UFUNCTION(BlueprintImplementableEvent) void PlayerCameraHorizontalRotation(float value);
 	UFUNCTION(BlueprintImplementableEvent) void PlayerCameraVerticalRotation(float value);
@@ -61,6 +60,7 @@ public:
 	UFUNCTION(BlueprintCallable) void CallPlayerCameraVerticalRotation(float value, ACPlayerCameraComponent* myPlayer) { if (myPlayer != nullptr) myPlayer->OriginRotateVertical(value); }
 	UFUNCTION(BlueprintCallable) void CallPlayerCameraZoom(float value, ACPlayerCameraComponent* myPlayer) { if (myPlayer != nullptr) myPlayer->ZoomTargetZoom(value); }
 	//CAMERA BULLSHITTERING
+
 	
 	// returns UseType
 	void CallSetIsUsing(int useType) { m_pCharacterController->UFUNCTIONCallSetIsUsing(useType); };

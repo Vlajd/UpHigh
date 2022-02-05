@@ -76,7 +76,7 @@ void ASamplePlayerController::CallMoveFwBw(float value) {
         if (value) {
 
             m_pCharacterController->MoveFwBw(value);
-            RotateCharacter();
+            RotateCharacter(m_pCharacterController);
         }
         else return;
     }
@@ -92,7 +92,7 @@ void ASamplePlayerController::CallMoveRL(float value) {
         if (value) {
 
             m_pCharacterController->MoveRL(value);
-            RotateCharacter();
+            RotateCharacter(m_pCharacterController);
         }
         else return;
     }
@@ -106,19 +106,6 @@ void ASamplePlayerController::CallMoveRL(float value) {
 void ASamplePlayerController::DebugFunction() {
 
     m_pCharacterController->PlayerDeath();
-}
-
-
-
-void ASamplePlayerController::RotateCharacter() {
-    if (!m_CanPlayerMove) return;
-
-    if (m_pCharacterController != nullptr) {
-
-        // m_pCharacterController->RotateOnCamera(GetCameraYawRotation());
-    }
-    else
-        GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Red, TEXT("m_pCharacterController || m_pPlayerCameraRotationOrigin IS NULL!::RotateCharacter"));
 }
 
 void ASamplePlayerController::KillPlayer() {
