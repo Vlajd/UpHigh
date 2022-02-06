@@ -44,7 +44,6 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 		UPROPERTY(EditAnywhere, Category = "Script") float m_SummonRate;
 
 		USkeletalMeshComponent* m_pMesh;
-
 		UCharacterMovementComponent* m_CharacterMovementComponent;
 
 		float m_PointDirX;
@@ -64,7 +63,7 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		//Animation Variables
 		float m_Timer;
-		bool m_IsSummoning;
+		UPROPERTY(BlueprintReadOnly) bool m_IsSummoning;
 		bool m_SummonAnimBool;
 		UPROPERTY(BlueprintReadWrite) bool m_HasDied;
 };
