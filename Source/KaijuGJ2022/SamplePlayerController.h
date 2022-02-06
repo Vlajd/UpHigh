@@ -44,6 +44,7 @@ public:
 
 	void TryOpenDoor();
 	void TryPickUpKey();
+	void TryMoveBox();
 	
 	void PauseGame() { if (m_pCharacterController != nullptr) m_pCharacterController->ShowPauseMenu(); };
 
