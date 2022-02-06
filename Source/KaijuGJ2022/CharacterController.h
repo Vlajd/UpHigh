@@ -35,7 +35,7 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		void RotateMesh();
 
-		void PlayerDeath();
+		UFUNCTION(BlueprintCallable) void PlayerDeath();
 
 		FRotator GetCurrentRotation() const;
 
@@ -60,7 +60,7 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 	
 		bool m_IsMoving;
 	
-		bool m_CanMove;
+		UPROPERTY(BlueprintReadOnly) bool m_CanMove;
 
 		//Animation Variables
 		float m_Timer;
