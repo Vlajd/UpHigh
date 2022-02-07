@@ -9,7 +9,6 @@
 #include "KeyItem.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "PauseMenu.h"
 #include "CPlayerCameraComponent.h"
 #include "SamplePlayerController.generated.h"
 
