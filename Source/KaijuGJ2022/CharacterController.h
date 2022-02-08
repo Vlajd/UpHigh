@@ -39,8 +39,10 @@ UCLASS() class KAIJUGJ2022_API ACharacterController : public ACharacter {
 
 		FRotator GetCurrentRotation() const;
 
+		UFUNCTION(BlueprintCallable) void SetSpawnCoords (float x, float y, float z) { m_SpawnCoords = FVector(x, y, z); }
+	
 		UPROPERTY(EditAnywhere, Category = "Script") float m_RotationToCameraSpeed;
-		UPROPERTY(EditAnywhere, Category = "Script") FVector m_SpawnCoords;
+		UPROPERTY(BlueprintReadWrite) FVector m_SpawnCoords;
 		UPROPERTY(EditAnywhere, Category = "Script") float m_SummonRate;
 
 		USkeletalMeshComponent* m_pMesh;

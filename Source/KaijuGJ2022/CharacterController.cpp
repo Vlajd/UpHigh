@@ -16,8 +16,6 @@ ACharacterController::ACharacterController()
 	
 	m_SummonRate = 10.0f;
 
-	m_SpawnCoords.Set(0.0f, 0.0f, 0.0f);
-
 	movementSpeed = 1.0f;
 	m_RotationToCameraSpeed = 0.5f;
 }
