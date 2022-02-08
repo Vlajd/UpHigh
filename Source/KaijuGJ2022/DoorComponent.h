@@ -30,5 +30,5 @@ public:
 
 	void OnCallDoorAnim();
 
-	UPROPERTY(EditAnywhere, Category = "Script") bool m_NeedsKey;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Script") bool m_NeedsKey;
 };
