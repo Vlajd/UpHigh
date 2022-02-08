@@ -5,8 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "CharacterController.h"
-#include "DoorComponent.h"
-#include "KeyItem.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "CPlayerCameraComponent.h"
@@ -41,9 +39,9 @@ public:
 
 	void KillPlayer();
 
-	void TryOpenDoor();
-	void TryPickUpKey();
-	void TryMoveBox();
+	UFUNCTION(BlueprintImplementableEvent) void TryOpenDoor();
+	UFUNCTION(BlueprintImplementableEvent) void TryPickUpKey();
+	UFUNCTION(BlueprintImplementableEvent) void TryMoveBox();
 	
 	void PauseGame() { if (m_pCharacterController != nullptr) m_pCharacterController->ShowPauseMenu(); };
 
@@ -71,10 +69,6 @@ public:
 	TArray<AActor*> m_pCharacterControllerArray;
 	UPROPERTY()
 	ACharacterController* m_pCharacterController;
-	UPROPERTY()
-	TArray<AActor*> m_pDoorArray;
-	UPROPERTY()
-	TArray<ADoorComponent*> m_pDoorObjectArray;
 
 	// 1 is OpenDoor
 	// 2 is PickupKey
@@ -83,9 +77,7 @@ public:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> CameraToGenerate;
 
-	UPROPERTY() bool m_HasKey;
-	TArray<AActor*> m_pKeyArray;
-	AKeyItem* m_pKey;
+	UPROPERTY(BlueprintReadWrite) bool m_HasKey;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Script") bool m_CanPlayerMove;
 };
