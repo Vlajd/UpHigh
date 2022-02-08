@@ -104,6 +104,7 @@ void ASamplePlayerController::KillPlayer() {
 void ASamplePlayerController::CallUse()
 {
     if (!m_CanPlayerMove) return;
+    
     TryOpenDoor();
     TryPickUpKey();
 }

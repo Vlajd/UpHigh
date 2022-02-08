@@ -61,7 +61,7 @@ public:
 
 	
 	// returns UseType
-	void CallSetIsUsing(int useType) { m_pCharacterController->UFUNCTIONCallSetIsUsing(useType); };
+	UFUNCTION(BlueprintCallable) void CallSetIsUsing(int useType) { m_pCharacterController->UFUNCTIONCallSetIsUsing(useType); };
 	
 	void CallUse();
 	
@@ -72,7 +72,7 @@ public:
 
 	// 1 is OpenDoor
 	// 2 is PickupKey
-	UPROPERTY(BlueprintReadOnly) int m_UseType;
+	UPROPERTY(BlueprintReadWrite) int m_UseType;
 	
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> CameraToGenerate;

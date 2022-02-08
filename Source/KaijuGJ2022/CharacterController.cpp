@@ -27,7 +27,9 @@ void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetActorLocation(m_SpawnCoords);
+	FVector temp = this->GetActorLocation();
+	
+	m_SpawnCoords.Set(temp.X, temp.Y, temp.Z);
 }
 
 // Called every frame
