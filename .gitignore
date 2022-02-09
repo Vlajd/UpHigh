@@ -2,6 +2,7 @@
 .vs/
 .idea/
 Plugins/
+Windows/
 
 # Compiled Object files
 *.slo
