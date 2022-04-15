@@ -35,37 +35,37 @@ void ACharacterController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (m_HasDied) {
-
-		if (m_Timer <= 1.0f && !m_IsSummoning) {
+	if (!m_HasDied) return;
 	
-			m_Timer += m_Timer * DeltaTime * m_SummonRate;
-			m_pMesh->SetRelativeScale3D(FVector(1.0f - m_Timer));
-		}
-		else if (m_Timer <= 1.0f && m_IsSummoning && !m_SummonAnimBool) {
+	if (m_Timer <= 1.0f && !m_IsSummoning)
+	{
 
-			m_Timer += m_Timer * DeltaTime * m_SummonRate;
-			m_pMesh->SetRelativeScale3D(FVector(m_Timer));
-		}
-		else if (m_Timer >= 1.0f && m_SummonAnimBool) {
-
-			m_IsSummoning = true;
-			m_Timer = 0.01f;
-			m_SummonAnimBool = false;
-			SetActorLocation(m_SpawnCoords);
-		}
-		else if (!m_SummonAnimBool) {
-
-			m_HasDied = false;
-			m_IsSummoning = false;
-			m_SummonAnimBool = true;
-			m_CanMove = true;
-		}
-		else {
-
-			m_SummonAnimBool = false;
-		}
-
+		m_Timer += m_Timer * DeltaTime * m_SummonRate;
+		m_pMesh->SetRelativeScale3D(FVector(1.0f - m_Timer));
+	}
+	else if (m_Timer <= 1.0f && m_IsSummoning && !m_SummonAnimBool)
+	{
+		m_Timer += m_Timer * DeltaTime * m_SummonRate;
+		m_pMesh->SetRelativeScale3D(FVector(m_Timer));
+	}
+	else if (m_Timer >= 1.0f && m_SummonAnimBool)
+	{
+		m_IsSummoning = true;
+		m_Timer = 0.01f;
+		m_SummonAnimBool = false;
+		SetActorLocation(m_SpawnCoords);
+	}
+	else if (!m_SummonAnimBool)
+	{
+		m_HasDied = false;
+		m_IsSummoning = false;
+		m_SummonAnimBool = true;
+		m_CanMove = true;
+		m_pMesh->SetRelativeScale3D(FVector(1.0f));
+	}
+	else
+	{
+		m_SummonAnimBool = false;
 	}
 
 	// GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Blue, FString::Printf(TEXT("MoveFwBw: %f, %f"), m_PointDirX, m_PointDirY));
